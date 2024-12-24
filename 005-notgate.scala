@@ -16,12 +16,7 @@ object Main extends App {
 }
 
 class top_module extends RawModule {
-    val a, b, c, d = IO(Input(UInt(1.W)))
-    val out, out_n = IO(Output(UInt(1.W)))
-    val a_and_b = Wire(UInt(1.W))
-    val c_and_d = Wire(UInt(1.W))
-    a_and_b := a & b
-    c_and_d := c & d
-    out := a_and_b | c_and_d
-    out_n := ~out
+    val in = IO(Input(UInt(1.W)))
+    val out = IO(Output(UInt(1.W)))
+    out := !in
 }
