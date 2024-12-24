@@ -17,8 +17,8 @@ object Main extends App {
 }
 
 class top_module extends RawModule {
-    val a, b, c, d, e = IO(Input(UInt(1.W)))
-    val out = IO(Output(UInt(25.W)))
+    val in = IO(Input(SInt(8.W)))
+    val out = IO(Output(SInt(32.W)))
 
-    out := ~Cat(Fill(5, a), Fill(5, b), Fill(5, c), Fill(5, d), Fill(5, e)) ^ Fill(5, Cat(a, b, c, d, e))
+    out := in
 }

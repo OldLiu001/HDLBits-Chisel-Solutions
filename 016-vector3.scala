@@ -17,8 +17,13 @@ object Main extends App {
 }
 
 class top_module extends RawModule {
-    val a, b, c, d, e = IO(Input(UInt(1.W)))
-    val out = IO(Output(UInt(25.W)))
+    val a, b, c, d, e, f = IO(Input(UInt(5.W)))
+    val w, x, y, z = IO(Output(UInt(8.W)))
 
-    out := ~Cat(Fill(5, a), Fill(5, b), Fill(5, c), Fill(5, d), Fill(5, e)) ^ Fill(5, Cat(a, b, c, d, e))
+    val t = Cat(a, b, c, d, e, f, "b11".U).asTypeOf(Vec(4, UInt(8.W)))
+    var i = 0
+    for (x <- Array(w, x, y, z).reverseIterator) {
+        x := t(i)
+        i += 1
+    }
 }

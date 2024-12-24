@@ -17,8 +17,13 @@ object Main extends App {
 }
 
 class top_module extends RawModule {
-    val a, b, c, d, e = IO(Input(UInt(1.W)))
-    val out = IO(Output(UInt(25.W)))
+    val in = IO(Input(UInt(8.W)))
+    val out = IO(Output(UInt(8.W)))
 
-    out := ~Cat(Fill(5, a), Fill(5, b), Fill(5, c), Fill(5, d), Fill(5, e)) ^ Fill(5, Cat(a, b, c, d, e))
+    val v = in.asTypeOf(Vec(8, UInt(1.W)))
+    var v2 = Wire(Vec(8, UInt(1.W)))
+    for (x <- 0 to 7) {
+        v2(7 - x) := v(x)
+    }
+    out := v2.asUInt
 }

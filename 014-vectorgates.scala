@@ -17,8 +17,12 @@ object Main extends App {
 }
 
 class top_module extends RawModule {
-    val a, b, c, d, e = IO(Input(UInt(1.W)))
-    val out = IO(Output(UInt(25.W)))
+    val a, b = IO(Input(UInt(3.W)))
+    val out_or_bitwise = IO(Output(UInt(3.W)))
+    val out_or_logical = IO(Output(UInt(1.W)))
+    val out_not = IO(Output(UInt(6.W)))
 
-    out := ~Cat(Fill(5, a), Fill(5, b), Fill(5, c), Fill(5, d), Fill(5, e)) ^ Fill(5, Cat(a, b, c, d, e))
+    out_or_bitwise := a | b
+    out_or_logical := a.orR || b.orR
+    out_not := ~Cat(b, a)
 }

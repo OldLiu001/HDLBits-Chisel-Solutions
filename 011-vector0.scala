@@ -24,7 +24,7 @@ class top_module extends RawModule {
     outv := vec
     val bools = VecInit(vec.asBools)
     var i = 0
-    for ( x <- Array(o0, o1, o2) ) {
+    for (x <- Array(o0, o1, o2)) {
         x := bools(i)
         i += 1
     }
