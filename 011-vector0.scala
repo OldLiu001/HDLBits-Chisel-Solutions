@@ -17,12 +17,15 @@ object Main extends App {
 }
 
 class top_module extends RawModule {
-    val in = IO(Input(UInt(16.W)))
-    val out_hi, out_lo = IO(Output(UInt(8.W)))
+    val vec = IO(Input(UInt(3.W)))
+    val outv = IO(Output(UInt(3.W)))
+    val o0, o1, o2 = IO(Output(UInt(1.W)))
 
-    val t = in.asTypeOf(new Bundle {
-        val hi, lo = UInt(8.W)
-    })
-    out_hi := t.hi
-    out_lo := t.lo
+    outv := vec
+    val bools = VecInit(vec.asBools)
+    var i = 0
+    for ( x <- Array(o0, o1, o2) ) {
+        x := bools(i)
+        i += 1
+    }
 }

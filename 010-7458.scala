@@ -1,7 +1,7 @@
 //> using scala "2.13.12"
 //> using dep "org.chipsalliance::chisel:6.6.0"
 //> using plugin "org.chipsalliance:::chisel-plugin:6.6.0"
-//> using options "-unchecked", "-deprecation", "-language:reflectiveCalls", "-feature", "-Xcheckinit", "-Ywarn-dead-code", "-Ywarn-unused", "-Ymacro-annotations"
+//> using options "-unchecked", "-deprecation", "-language:reflectiveCalls", "-feature", "-Xcheckinit", "-Xfatal-warnings", "-Ywarn-dead-code", "-Ywarn-unused", "-Ymacro-annotations"
 
 import chisel3._
 import chisel3.util._
@@ -17,12 +17,10 @@ object Main extends App {
 }
 
 class top_module extends RawModule {
-    val in = IO(Input(UInt(16.W)))
-    val out_hi, out_lo = IO(Output(UInt(8.W)))
+    val p1a, p1b, p1c, p1d, p1e, p1f = IO(Input(UInt(1.W)))
+    val p2a, p2b, p2c, p2d = IO(Input(UInt(1.W)))
+    val p1y, p2y = IO(Output(UInt(1.W)))
 
-    val t = in.asTypeOf(new Bundle {
-        val hi, lo = UInt(8.W)
-    })
-    out_hi := t.hi
-    out_lo := t.lo
+    p1y := Cat(p1a, p1b, p1c).andR | Cat(p1d, p1e, p1f).andR
+    p2y := (p2a & p2b) | (p2c & p2d)
 }
