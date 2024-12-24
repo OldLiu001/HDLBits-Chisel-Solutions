@@ -16,21 +16,18 @@ object Main extends App {
     )
 }
 
-class my_dff8 extends BlackBox {
+class my_dff extends BlackBox {
     val io = IO(new Bundle {
-        val clk = Input(Bool())
-        val d = Input(UInt(8.W))
-        val q = Output(UInt(8.W))
+        val clk, d = Input(Bool())
+        val q = Output(Bool())
     })
 }
 
 class top_module extends RawModule {
-    val clk = IO(Input(UInt(1.W)))
-    val d = IO(Input(UInt(8.W)))
-    val sel = IO(Input(UInt(2.W)))
-    val q = IO(Output(UInt(8.W)))
+    val clk, d = IO(Input(UInt(1.W)))
+    val q = IO(Output(UInt(1.W)))
 
-    val dffs = Array(Module(new my_dff8), Module(new my_dff8), Module(new my_dff8))
+    val dffs = Array(Module(new my_dff), Module(new my_dff), Module(new my_dff))
     for ((dff, i) <- dffs.zipWithIndex) {
         dff.io.clk := clk
         if (i > 0) {
@@ -39,11 +36,5 @@ class top_module extends RawModule {
             dff.io.d := d
         }
     }
-    val qs = dffs.map(_.io.q)
-    q := MuxLookup(sel, 0.U)(Seq(
-        (0.U) -> d,
-        (1.U) -> qs(0),
-        (2.U) -> qs(1),
-        (3.U) -> qs(2)
-    ))
+    q := dffs(dffs.length - 1).io.q
 }
