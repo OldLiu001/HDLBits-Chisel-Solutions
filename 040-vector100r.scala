@@ -14,18 +14,7 @@ object Main extends App {
 }
 
 class top_module extends RawModule {
-    val scancode = IO(Input(UInt(16.W)))
-    val left, down, right, up = IO(Output(UInt(1.W)))
-
-    val w = WireDefault("b0000".U(4.W))
-    val bools = MuxLookup(scancode, "b0000".U)(Seq(
-        "he06b".U -> "b1000".U,
-        "he072".U -> "b0100".U,
-        "he074".U -> "b0010".U,
-        "he075".U -> "b0001".U,
-    )).asBools
-    left := bools(3)
-    down := bools(2)
-    right := bools(1)
-    up := bools(0)
+    val in = IO(Input(UInt(100.W)))
+    val out = IO(Output(UInt(100.W)))
+    out := Reverse(in)
 }
